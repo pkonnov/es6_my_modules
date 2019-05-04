@@ -1,9 +1,10 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlPlugin = require('html-webpack-plugin');
+require("@babel/polyfill");
 
 module.exports = {
-  entry: './index.js',
+  entry: ['@babel/polyfill', './index.js'],
 
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -11,7 +12,10 @@ module.exports = {
   },
 
   plugins: [
-    new HtmlPlugin()
+    new HtmlPlugin({
+    	hash:  true,
+	    template: './src/index.html'
+    })
   ],
 
   module: {
