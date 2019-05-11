@@ -1,37 +1,37 @@
-//export default class TopNews {
-//
-//  constructor() {
-//    this.url = 'http://new.sarinform.ru/api/top_news';
-//    this.node = [];
-//    this.getData();
-//  }
-//
-// getData = () => {
-//  return fetch(this.url)
-//    .then((response) => {return response.json()})
-//    .then(data => {this.node.push(data)})
-//  };
-//
-//};
-//
-//let myTopNew = new TopNews;
-//
-//console.log(myTopNew.node);
-//
-
-let rendersToPage = 'h'
-document.getElementById("root").innerHTML = `${rendersToPage}
-`;
-
+const _d = document;
+const buttonMore = _d.getElementById('myButton')
+let num = 1;
 
 async function main() {
-  try{
-    const response = await fetch("http://127.0.0.1:8000/api/v1/")
+    const response = await fetch(`http://127.0.0.1:8000/api/v1/?page=${num}`)
     const jsonData = await response.json()
     console.log(jsonData)
-  } catch (err) {
-    console.log(err)
-  }
+    const mapData = await jsonData.data.map((i) => {
+      return `
+      <div class="col-12 lenta">
+        <a class="title" href="/${i.attributes.section + "/" + i.attributes.slug}">${i.attributes.title}</a><br>
+        <span class="time_pub">${i.attributes.publish}</span>
+        <span class="section">
+          <a id="s" href="/${i.attributes.section}">${i.attributes.section_rus}</a>
+        </span>
+      </div>`
+    })
+    // check for data counts
+    if (jsonData.data.length < 10) buttonMore.style.display = "none"
+    _d.getElementById('root').insertAdjacentHTML('beforeend', mapData.join(''))
 }
 
-main()
+buttonMore.addEventListener('click', (e) => {
+  num++
+  return main();
+})
+
+
+// <div class="col-12 lenta">
+//             <a class="title" href="/economy/saratovec-dispetcher-skoroj-otkazalsya-prisylat-vr/">Саратовец: диспетчер скорой отказался присылать врачей к женщине с кровохарканием</a><br>
+//             <span class="time_pub">19:30</span>
+//             <span class="section">
+//               <a id="s" href="/economy">Экономика
+//               </a>
+//             </span>
+//           </div>

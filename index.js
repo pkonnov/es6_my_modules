@@ -1,1 +1,2 @@
-const TopNews = require('./TopNews');
+import TopNews from './TopNews'
+import ft from './testFinelly'

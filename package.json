@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
+    "fast-async": "^6.3.8",
     "remove": "^0.1.5"
   }
 }
