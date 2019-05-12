@@ -1,6 +1,7 @@
 const _d = document;
+const parentCol = _d.getElementById('col-12')
 const buttonMore = _d.getElementById('myButton')
-let num = 1;
+let num = 0;
 
 async function main() {
     const response = await fetch(`http://127.0.0.1:8000/api/v1/?page=${num}`)
@@ -17,13 +18,13 @@ async function main() {
       </div>`
     })
     // check for data counts
-    if (jsonData.data.length < 10) buttonMore.style.display = "none"
+    if (jsonData.data.length < 10) parentCol.removeChild(buttonMore)
     _d.getElementById('root').insertAdjacentHTML('beforeend', mapData.join(''))
 }
 
 buttonMore.addEventListener('click', (e) => {
   num++
-  return main();
+  main();
 })
 
 
